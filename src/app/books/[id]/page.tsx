@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import ReadButton from "@/components/bookDetails/ReadButton";
 import WishlistButton from "@/components/bookDetails/WishlistButton";
+import booksData from "@/data/booksData.json";
 
 type Book = {
   bookId: number;
@@ -24,23 +25,14 @@ type BookDetailsPageProps = {
   }>;
 };
 
-const getBooks = async (): Promise<Book[]> => {
-  const res = await fetch("http://localhost:3000/booksData.json");
 
-  if (!res.ok) {
-    throw new Error("Failed to fetch books");
-  }
-
-  return res.json();
-};
 
 const BookDetailsPage = async ({
   params,
 }: BookDetailsPageProps) => {
   const { id } = await params;
 
-  const books = await getBooks();
-
+  const books: Book[] = booksData;
   const book = books.find(
     (book) => book.bookId === Number(id)
   );
